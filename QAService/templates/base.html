@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Q&A Сайт{% endblock %}</title>
+  <link type="text/css" rel="stylesheet" href="{% static 'service/css/style.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="/">Q&A Сайт</a></h1>
+      <nav>
+        <ul>
+          <li><a href="/">Главная</a></li>
+          <li><a href="{% url 'question_create' %}">Задать вопрос</a></li>
+          <li><a href="#">О сайте</a></li>
+          <li><a href="/login" class="btn-header">Логин</a></li>
+          <li><a href="/registration" class="btn-header">Регистрация</a></li>
+          <li><a href="/profile">Профиль</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    {% block content %}
+    <div class="container">
+      <h1>Список вопросов</h1>
+      {% for question in object_list %}
+        <div class="question-card">
+          <h2><a href="{{ question.get_absolute_url }}">{{ question.title }}</a></h2>
+          <p>{{ question.content|truncatechars:150 }}</p>
+          <small>Создано: {{ question.time_create }}</small>
+        </div>
+      {% empty %}
+        <p>Вопросов пока нет.</p>
+      {% endfor %}
+
+      {% if is_paginated %}
+        <div class="pagination">
+          {% if page_obj.has_previous %}
+            <a href="?page=1">« Первая</a>
+            <a href="?page={{ page_obj.previous_page_number }}">‹ Предыдущая</a>
+          {% endif %}
+
+          <span class="current">Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Следующая ›</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя »</a>
+          {% endif %}
+        </div>
+
+        <form method="get" class="go-to-page-form">
+          <label for="go_to_page">Перейти на страницу:</label>
+          <input type="number" id="go_to_page" name="page" min="1" max="{{ page_obj.paginator.num_pages }}" value="{{ page_obj.number }}">
+          <button type="submit">Перейти</button>
+        </form>
+      {% endif %}
+    </div>
+    {% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; {{ now|default:"2025" }} Q&A Сайт. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.querySelector('.go-to-page-form');
+    form?.addEventListener('submit', function(e) {
+      const page = form.querySelector('input[name="page"]').value;
+      if (page < 1) {
+        e.preventDefault();
+        alert('Номер страницы должен быть больше 0!');
+      }
+    });
+  </script>
+</body>
+</html>

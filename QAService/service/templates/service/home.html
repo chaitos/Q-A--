@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <h1>Список вопросов</h1>
+
+  {% for question in object_list %}
+    <div class="question-card">
+      <h2><a href="{{ question.get_absolute_url }}">{{ question.title }}</a></h2>
+      <p>{{ question.content|truncatechars:150 }}</p>
+      <small>Создано: {{ question.time_create }}</small>
+    </div>
+  {% empty %}
+    <p>Вопросов пока нет.</p>
+  {% endfor %}
+</div>
+
+{% if is_paginated %}
+  <div class="pagination">
+    <span class="page-links">
+      {% if page_obj.has_previous %}
+        <a href="?page=1">« первая</a>
+        <a href="?page={{ page_obj.previous_page_number }}">‹ предыдущая</a>
+      {% endif %}
+
+      <span class="current">
+        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">следующая ›</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">последняя »</a>
+      {% endif %}
+    </span>
+  </div>
+{% endif %}
+<form method="get" class="go-to-page-form" style="margin-top: 10px; text-align: center;">
+  <label for="go_to_page">Перейти на страницу:</label>
+  <input type="number" id="go_to_page" name="page"
+         min="1" max="{{ page_obj.paginator.num_pages }}"
+         value="{{ page_obj.number }}">
+  <button type="submit">Перейти</button>
+</form>
+
+{% endblock %}

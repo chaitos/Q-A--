@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="question-form-container">
+        <h2 class="page-title">Задать вопрос</h2>
+        <form method="post" class="question-form">
+            {% csrf_token %}
+
+            <!-- Заголовок вопроса -->
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                {{ form.title }}
+            </div>
+
+            <!-- Содержимое вопроса -->
+            <div class="form-group">
+                <label for="{{ form.content.id_for_label }}">{{ form.content.label }}</label>
+                {{ form.content }}
+            </div>
+
+            <!-- Кнопка отправки -->
+            <button type="submit" class="submit-btn">Опубликовать</button>
+        </form>
+    </div>
+{% endblock %}
