@@ -1,15 +1,20 @@
 FROM python:3.12-slim
 
-WORKDIR /app/QAService
+WORKDIR /app
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt gunicorn
 
-# Копируем проект целиком в /app/QAService
 COPY . .
 
-# Собираем статику
-RUN python manage.py collectstatic --noinput
+WORKDIR /app  # рабочая директория совпадает с BASE_DIR
+
+# создаём папку для collectstatic
+RUN mkdir -p /app/staticfiles
+RUN chmod -R 777 /app/staticfiles
+
+# собираем статику
+RUN python manage.py collectstatic --noinput --verbosity 3
 
 EXPOSE 8000
 

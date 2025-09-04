@@ -7,11 +7,10 @@ DEBUG = False  # продакшен
 ALLOWED_HOSTS = ["*"]
 
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "staticfiles"  # куда collectstatic будет складывать все файлы
 STATICFILES_DIRS = [
-    BASE_DIR / "service" / "static",
+    BASE_DIR / "service" / "static",  # твоя статика приложения service
 ]
-
 
 
 
