@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = False  # продакшен
 ALLOWED_HOSTS = ["*"]
 
-STATIC_URL = "service/static/"
+STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"  # куда collectstatic будет складывать все файлы
 STATICFILES_DIRS = [
     BASE_DIR / "service" / "static",  # твоя статика приложения service
