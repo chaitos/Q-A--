@@ -8,8 +8,7 @@ DEBUG = False  # в продакшене
 ALLOWED_HOSTS = ["*"]  # Render сам подставит домен
 
 # STATIC
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "static/"
 
 
 
