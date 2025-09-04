@@ -7,8 +7,11 @@ DEBUG = False  # в продакшене
 
 ALLOWED_HOSTS = ["*"]  # Render сам подставит домен
 
-# STATIC
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [
+    BASE_DIR / "service" / "static",  # если у тебя есть статика в приложении service
+]
 
 
 
