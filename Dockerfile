@@ -1,24 +1,16 @@
 FROM python:3.12-slim
 
-# рабочая папка
-WORKDIR /app
+WORKDIR /app/QAService
 
-# зависимости
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt gunicorn
 
-
-# код
+# Копируем проект целиком в /app/QAService
 COPY . .
 
-# рабочая папка проекта
-WORKDIR /app/QAService
-
-# собираем статику
+# Собираем статику
 RUN python manage.py collectstatic --noinput
 
-# порт
 EXPOSE 8000
 
-# запуск через gunicorn
 CMD ["gunicorn", "QAService.wsgi:application", "--bind", "0.0.0.0:8000"]

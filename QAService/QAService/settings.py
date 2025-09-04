@@ -3,14 +3,13 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = False  # в продакшене
-
-ALLOWED_HOSTS = ["*"]  # Render сам подставит домен
+DEBUG = False  # продакшен
+ALLOWED_HOSTS = ["*"]
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
-    BASE_DIR / "service" / "static",  # если у тебя есть статика в приложении service
+    BASE_DIR / "service" / "static",
 ]
 
 
@@ -19,13 +18,6 @@ STATICFILES_DIRS = [
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-f4l-zlw--%mvy913n&z8aqezj*lnx(s_sr^r(bjx2vwjruldm)'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*'] #если не указать хост при debug = false то будет ошибка
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
