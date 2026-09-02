@@ -13,16 +13,7 @@ class QuestionAdmin(admin.ModelAdmin):
     list_per_page = 10 #пагинация
     search_fields = ['title', 'author__username']  # поиск(происходит только по своим полям, если поле ForiengKey, то выбросит ошибку. Чтобы ее исправить используем __(чтобы управлять процессом поиска) и указываем то поле, которое нас интересует в связанной модели)
     list_filter = ["author__username", "title", 'is_active'] #фильтрация в админке, можно делать свою собественную фильтрацию
-"""
-   #НЕ РАБОТАЕТ
-    @admin.display(description='Краткое описание')
-    def brief_info(self, question : Question):
-        return f'Вопрос содержит {len(question.content)} символов'
 
-    #НЕ РАБОТАЕТ(чтобы заработало, нужно поменять модель question)
-    def set_active(self, request, queryset):
-        queryset.update(is_active = Question.is_active.ACTIVE)
-"""
 
 # admin.site.register(Question, QuestionAdmin) вместо этого кода можно указать декоратор
 #admin.site.register(Answer)
@@ -34,6 +25,3 @@ class AnswerAdmin(admin.ModelAdmin):
     list_display = ('id', 'author', 'is_active', 'time_create')
     list_display_links = ('id', 'author',)
     ordering = ['time_create', 'author']
-
-
-

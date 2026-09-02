@@ -1,5 +1,3 @@
-from symtable import Class
-
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
@@ -16,7 +14,7 @@ from service.models import Question
 class Home(ListView):
     model = Question
     template_name = 'service/home.html'
-    paginate_by = 1
+    paginate_by = 10
 
 
 
@@ -77,4 +75,3 @@ class ProfileView(LoginRequiredMixin, ListView):
 
 def page_not_found(request, exception):
     return HttpResponseNotFound("Страница не найдена")
-
