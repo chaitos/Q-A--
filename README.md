@@ -1,4 +1,4 @@
-# QAService — Q&A Service (Stack Overflow Clone) ❓
+# QAService — Q&A Service (Stack Overflow Clone) 
 
 Сайт вопросов и ответов, аналог Stack Overflow. Пользователи регистрируются, задают вопросы, отвечают на них (в том числе на другие ответы) и ставят лайки.
 
