@@ -1,74 +1,45 @@
-# Q&A Service (Stack Overflow Clone) ❓
+# QAService — Q&A Service (Stack Overflow Clone) ❓
 
 Сайт вопросов и ответов, аналог Stack Overflow. Пользователи регистрируются, задают вопросы, отвечают на них (в том числе на другие ответы) и ставят лайки.
 
 ## Возможности
 
-- Регистрация и авторизация пользователей
-- Создание вопросов с автогенерацией уникального slug (в том числе из кириллицы)
-- Ответы на вопросы и вложенные ответы на ответы (self-referencing FK)
-- Лайки на вопросы и ответы через отдельные модели (`QuestionLike`, `AnswerLike`) — для большей гибкости, чем стандартный `ManyToManyField`
-- Soft delete — вопросы и ответы не удаляются физически, а помечаются `is_active=False`
-- Личный кабинет со списком своих вопросов
-- Пагинация списка вопросов
-- Админ-панель с поиском, фильтрами и inline-редактированием статуса
+- Регистрация и авторизация
+- Вопросы с автогенерацией slug (в том числе из кириллицы)
+- Вложенные ответы на ответы (self-referencing FK)
+- Лайки на вопросы и ответы
+- Soft delete (`is_active`) вместо физического удаления
+- Личный кабинет с историей своих вопросов
+- Админ-панель с поиском и фильтрами
 
 ## Стек
 
-- Python 3 / Django 5.2 (Class-Based Views)
-- SQLite (БД для разработки)
-- python-slugify (корректные slug из кириллицы)
-- Bootstrap 5
-- Docker + Gunicorn + WhiteNoise — для продакшен-сборки
+Python 3, Django 5.2 (Class-Based Views), SQLite, python-slugify, Bootstrap 5, Docker + Gunicorn + WhiteNoise
 
-## Структура проекта
-
-```
-QAService/
-├── QAService/          # настройки проекта
-├── service/             # основное приложение
-│   ├── models.py         # Question, Answer, QuestionLike, AnswerLike
-│   ├── views.py          # CBV: ListView, DetailView, CreateView
-│   ├── forms.py
-│   ├── admin.py
-│   └── templates/service/
-└── templates/base.html
-```
-
-## Установка и запуск локально
+## Запуск
 
 ```bash
-git clone https://github.com/chaitos/Q-A--.git
-cd Q-A--/QAService
+git clone https://github.com/chaitos/QAService.git
+cd QAService
 
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-
-pip install -r requirements.txt
-
-# создать .env на основе .env.example и указать свой SECRET_KEY
-
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
-```
-
-## Запуск через Docker
-
-```bash
 docker build -t qa-service .
-docker run -p 8000:8000 -e DJANGO_SECRET_KEY=your-secret-key qa-service
+docker run -p 8000:8000 -e DJANGO_SECRET_KEY=any-value-for-local -e DJANGO_DEBUG=True qa-service
 ```
 
-## Модели данных
+Сайт откроется на `http://127.0.0.1:8000/`. Миграции применяются автоматически при старте контейнера.
 
-- **Question** — вопрос: автор, заголовок, содержание, slug, статус активности
-- **Answer** — ответ на вопрос или на другой ответ (`parent`)
-- **QuestionLike / AnswerLike** — лайки с ограничением уникальности пары (пользователь, объект)
+Чтобы зайти в `/admin/`, создайте суперпользователя в отдельном терминале, пока контейнер запущен:
+
+```bash
+docker ps                                            # узнать CONTAINER ID
+docker exec -it <container_id> python manage.py createsuperuser
+```
+
+> Значения `DJANGO_SECRET_KEY`/`DJANGO_DEBUG` выше подходят только для локального просмотра, не для продакшена.
 
 ## Возможные улучшения
 
-- [ ] Подсчёт и отображение количества лайков на странице
-- [ ] Тесты (`tests.py` сейчас пустой)
+- [ ] Подсчёт лайков на странице
+- [ ] Тесты
 - [ ] Поиск и теги для вопросов
-- [ ] Кастомная страница 404
+- [ ] PostgreSQL вместо SQLite
